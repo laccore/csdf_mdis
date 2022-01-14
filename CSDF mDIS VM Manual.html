@@ -10,7 +10,7 @@ body {
 
 <body>
 <h2>CSDF mDIS VirtualBox VM User's Guide</h2>
-<p>January 5, 2022</p>
+<p>January 14, 2022</p>
 <hr/>
 <h3>Table of Contents</h3>
 <a href="#intro">Introduction</a><br/>
@@ -19,7 +19,7 @@ body {
 <a href="#running">Running the mDIS application</a><br/>
 <a href="#stopping">Stopping the mDIS VM in VirtualBox</a><br/>
 <a href="#connecting">Connecting to mDIS</a><br/>
-<a href="#backups">Creating Backups</a><br/>
+<a href="#backups">Creating and Restoring Backups</a><br/>
 <a href="#troubleshooting">Troubleshooting</a><br/><br/>
 
 <h3 id="intro">Introduction</h3>
@@ -91,7 +91,8 @@ After the build is complete, you should see the image at the top of this section
 
 <h3 id="stopping">Stopping the mDIS VM in VirtualBox</h3>
 <p>
-In general, there should be no need to manually stop the mDIS VM. If you turn off your computer while
+Unless you need to Restore an existing Snapshot, there should be no need to manually
+stop the mDIS VM. If you turn off your computer while
 the VM is running in VirtualBox, its state will be Saved automatically.
 </p>
 <p>To stop the mDIS VM, right-click the VM in VirtualBox, navigate to "Close" in the menu,
@@ -115,13 +116,54 @@ Password: dev1pw<br/>
 </code>
 </p><br/>
 
-<h3 id="backups">Creating Backups</h3>
-<p>Backups of the mDIS VM data are created using Snapshots in VirtualBox.</p>
-<p>To take a Snapshot, click the menu in the VM item and choose "Snapshots":</br>
+<h3 id="backups">Creating and Restoring Backups</h3>
+<p>Backups of the mDIS VM data are created using Snapshots in VirtualBox. A Snapshot saves the current
+state of the Virtual Machine to a file. This file can then be copied to an external drive for backup.
+</p>
+<h4>Creating Snapshots in VirtualBox</h4>
+<p>To access Snapshots in VirtualBox, click the menu icon in the VM item and choose "Snapshots":</br>
 <img src="vb_snapshot.png"><br/><br/>
-Then click the "Take" button. Enter a name and description of the snapshot, then click OK.<br/><br/>
-The snapshot files are saved in a folder called Snapshots on the Desktop. Open that folder
-and find the SAV file with the most recent date. This is the Snapshot you just created. Copy
+<p>You should now see the following:</p>
+<img src="vb_snapshot_ui.png"><br/><br/>
+Initially you'll only see the "Current State" item in the list on the right. Snapshots will be added to this list as they're created.
+<p>To create a snapshot:
+    <ol>
+        <li>Select the "Current State" item.</li>
+        <li>Click the "Take" button.</li>
+        <li>Enter a name and description of the snapshot, then click OK.</li>
+    </ol>
+</p>
+<p>Now, you should see your new snapshot in the list:</p>
+<img src="vb_snapshot_1.png"><br/><br/>
+<p>Take another snapshot, and the list will grow:</p>
+<img src="vb_snapshot_2.png"><br/><br/>
+<p>After taking a third snapshot:</p>
+<img src="vb_snapshot_3.png"><br/><br/>
+<p>Notice that the most recent snapshot is the one immediately above "Current State".</p><br/>
+
+<h4>Restoring a Snapshot in VirtualBox</h4>
+<p>Now suppose something went horribly wrong in mDIS. To get things working again,
+we'll need to restore our most-recent snapshot, titled "A Third Snapshot 1/14/2022 3:48pm".
+To restore a snapshot:
+    <ol>
+        <li><a href="#stopping">Stop the VM</a> with any of the three options (Save State, ACPI Shutdown, Power Off).</a></li>
+        <li>Select the Snapshot you want to restore.</li>
+        <li>Click the "Restore" button.</li>
+        <li>When prompted, uncheck the "Create a snapshot of the current machine state" box.</li>
+        <li>Then, click Restore.</li>
+        <li>Select "Current State" and click the green "Start" arrow.</li>
+        <li>If necessary, <a href="#running">restart the mDIS application.</a></li>
+        <li>Continue using mDIS as usual.</li>
+    </ol>
+</p>
+
+<p><b>Important:</b> Data that was added to mDIS after the most-recent Snapshot was taken will be lost!
+It will need to be re-entered and saved.</p><br/><br/>
+
+<h4>Backing up Snapshot files to an external drive</h4>
+<p>Each snapshot creates a corresponding file with the extension ".sav".
+These files are placed in a folder called "mDIS Snapshots Folder" on the Desktop. Open that folder
+and find the .sav file with the most recent date. This is the Snapshot you just created. Copy
 that file to an external drive to backup.
 </p><br/><br/>
 
