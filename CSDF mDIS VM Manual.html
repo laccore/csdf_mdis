@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>CSDF mDIS VM Manual</title>
+<style>
+body {
+    font-family: sans-serif;
+}
+</style>
+</head>
+
+<body>
+<h2>CSDF mDIS VirtualBox VM User's Guide</h2>
+<p>January 5, 2022</p>
+<hr/>
+<h3>Table of Contents</h3>
+<a href="#intro">Introduction</a><br/>
+<a href="#starting_vb">Starting Oracle VirtualBox</a><br/>
+<a href="#starting">Starting the mDIS VM in VirtualBox</a><br/>
+<a href="#running">Running the mDIS application</a><br/>
+<a href="#stopping">Stopping the mDIS VM in VirtualBox</a><br/>
+<a href="#connecting">Connecting to mDIS</a><br/>
+<a href="#backups">Creating Backups</a><br/>
+<a href="#troubleshooting">Troubleshooting</a><br/><br/>
+
+<h3 id="intro">Introduction</h3>
+<p>
+The mobile Drilling Information System (mDIS) application runs in a virtual machine (VM)
+on the Oracle VirtualBox application.<br/><br/>
+To access the mDIS, both the Oracle VirtualBox application
+and the mDIS VM must be running, which looks like this.
+<img src="running_vm_full.png"><br/><br/><br/>
+Additionally, the mDIS application must be running within the mDIS VM.
+To check this, view the VM's window by clicking the green "Show" arrow in VirtualBox,
+or by clicking the VM's Taskbar icon, which looks like this: <img src="vb_vm_taskbar.png"><br/><br/>
+If the mDIS application is running correctly, you should see this:<br/>
+<img src="running_mdis.png"><br/>
+</p><br/>
+<p>If you see both of the above, you should be able to <a href="#connecting">connect to mDIS</a>.</p>
+<p>If not, follow the appropriate steps below.</p><br/><br/>
+
+<h3 id="starting_vb">Starting Oracle VirtualBox</h3>
+<p>
+Oracle VirtualBox is a Windows application.
+You should see its icon on the Taskbar: <img src="vb_taskbar.png">
+Click the icon to launch VirtualBox.<br/><br/>
+</p>
+<p>If the VirtualBox icon isn't in the Taskbar, navigate to Oracle VM VirtualBox in the Start Menu and use the icon to launch:<br/>
+<img src="vb_startmenu.png">
+</p>
+<br/>
+
+<h3 id="starting">Starting the mDIS VM in VirtualBox</h3>
+In VirtualBox, the mDIS VM state should be Running, which looks like this.<br/>
+<img src="running_vm.png"><br/><br/><br/>
+
+If the VM state is anything other than Running (Saved, Powered Off, Paused, etc), 
+run the VM by clicking the green Start arrow.<br/>
+<img src="start_saved_vm.png"><br/><br/><br/>
+Eventually the VM state will change to "Running", and the label of the green Start arrow will change to "Show".<br/><br/>
+
+<h3 id="running">Running the mDIS application</h3>
+Once the mDIS VM is running in VirtualBox, you can click the green Show arrow to view the VM window.<br/><br/>
+If it looks like this, the mDIS application is running properly. You should be able to <a href="#connecting">connect to mDIS</a>.<br/>
+<img src="running_mdis.png"><br/><br/><br/>
+
+If it looks like this, the mDIS application needs to be run.<br/>
+<img src="login_vm.png"><br/><br/>
+
+First, login with the following credentials:<br/><br/>
+<code>
+Login: vagrant<br/>
+Password: vagrant<br/>
+</code><br/>
+You should now see something like this:<br/>
+<img src="post_login_vm.png"><br/><br/>
+
+Enter the following commands <b>exactly</b>, hitting enter after each:<br/><br/>
+<code>
+cd proj/mdis<br/>
+sudo docker-compose up -d</br>
+</code><br/>
+Now you should see something like this:</br>
+<img src="post_docker_vm.png"><br/><br/>
+
+Enter one last command:<br/><br/>
+<code>npm run serve</code></br></br>
+Now you'll see progress messages like this for a minute or two:</br>
+<img src="post_npm_vm.png"><br/><br/>
+After the build is complete, you should see the image at the top of this section. You can now
+<a href="#connecting">connect to mDIS</a>.<br/><br/>
+
+<h3 id="stopping">Stopping the mDIS VM in VirtualBox</h3>
+<p>
+In general, there should be no need to manually stop the mDIS VM. If you turn off your computer while
+the VM is running in VirtualBox, its state will be Saved automatically.
+</p>
+<p>To stop the mDIS VM, right-click the VM in VirtualBox, navigate to "Close" in the menu,
+and select one of the three options:
+</p>
+<img src="stopping_vm.png">
+<p>If you choose "Save State", the mDIS application should resume running when the VM is started back up.</p>
+<p>If you choose "ACPI Shutdown" or "Power Off", you'll need to <a href="#running">run the mDIS application</a>
+when the VM is started back up.</p><br/>
+
+<h3 id="connecting">Connecting to mDIS</h3>
+<p>
+In your browser, enter <code>localhost:3030</code> into the address bar and hit Enter.
+You should see the mDIS login page.<br/><br/>
+<img src="mdis_login.png">
+<br/><br/>
+Use the following credentials to login:<br/><br/>
+<code>
+Login: dev1<br/>
+Password: dev1pw<br/>
+</code>
+</p><br/>
+
+<h3 id="backups">Creating Backups</h3>
+<p>Backups of the mDIS VM data are created using Snapshots in VirtualBox.</p>
+<p>To take a Snapshot, click the menu in the VM item and choose "Snapshots":</br>
+<img src="vb_snapshot.png"><br/><br/>
+Then click the "Take" button. Enter a name and description of the snapshot, then click OK.<br/><br/>
+The snapshot files are saved in a folder called Snapshots on the Desktop. Open that folder
+and find the SAV file with the most recent date. This is the Snapshot you just created. Copy
+that file to an external drive to backup.
+</p><br/><br/>
+
+<h3 id="troubleshooting">Troubleshooting</h3>
+<b>After I click the mDIS VM window, I can't see my mouse cursor!</b></br/><br/>
+When clicked, the VM window will "capture" the mouse until it is released. To do so, press
+the Control key <b>on the right</b> (not left) side of the keyboard. You should then be able to
+use the mouse as usual.<br/><br/><br/>
+
+<b>In VirtualBox, the VM state isn't "Running", but the green Start/Show arrow is disabled!</b><br/><br/>
+This can happen if the VM is waiting for the user to respond to a warning or error message.
+
+Look in the Taskbar for the VM window's icon <img src="vb_vm_taskbar.png">, click it to view the VM,
+then respond to the message. This should enable the green Start/Show arrow.
+<br/><br/><br/>
+
+<b>I see warnings when starting up the mDIS VM!</b><br/><br/>
+These warnings can safely be ignored.<br/><br/><br/>
+
+</body>
+</html>
